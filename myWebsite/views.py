@@ -23,4 +23,12 @@ def skills(request):
     }
     return HttpResponse(template.render(context, request))
 
+def extra(request, id):
+    value = id
+    template = loader.get_template("extra.html")
+    context = {
+        "value": value
+    }
+    return HttpResponse(template.render(context, request))
+
 # Create your views here.

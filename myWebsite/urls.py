@@ -6,4 +6,5 @@ urlpatterns = [
     path("", views.myfunc),
     path("aboutMe/", views.aboutMe),
     path("skills/", views.skills),
+    path("20/<str:id>/", views.extra)
 ]
