@@ -6,11 +6,23 @@
     <title>Document</title>
 </head>
 <body>
-    information:
-    <a href="browse/aboutMe">first person</a>
-    <a href="browse/skills">second person</a>
-    <p>
-        <a href="browse/20/zahin">extra</a>
-    </p>
+    <header>
+        <p><h1>Welcome to My Website!</h1></p>
+    </header>
+
+    <article>
+        <section class="questions">
+            <p><h2>We would like you to answer some of our questions:</h2></p>
+                <ul>
+                    {% for question in questions %}
+                    <li><a href="{% url 'myWebsite:q_details' question.id %}">Question_{{ forloop.counter }}</a></li>
+                    {% endfor %}
+                </ul>
+        </section>
+
+        <section class="result">
+            <h2>See Our Results: <a href="{% url 'myWebsite:results' %}">Here</a></h2>
+        </section>
+    </article>
 </body>
 </html>

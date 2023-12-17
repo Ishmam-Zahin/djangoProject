@@ -1,34 +1,38 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from .models import MyTable
+from .models import Question, Choice
 
-def myfunc(request):
+def homePage(request):
     template = loader.get_template("index.html")
-    return HttpResponse(template.render())
-
-def aboutMe(request):
-    template = loader.get_template("aboutMe.html")
-    first_person = MyTable.objects.all()[0]
+    questions = Question.objects.all()
     context = {
-        "first_person": first_person
+        "questions": questions
     }
     return HttpResponse(template.render(context, request))
 
-def skills(request):
-    template = loader.get_template("skills.html")
-    second_person = MyTable.objects.all()[1]
+def questionDetails(request, id):
+    question = Question.objects.get(id = id)
+    choices = question.choice_set.all()
     context = {
-        "second_person": second_person
+        "choices": choices,
+        "question": question
     }
+    template = loader.get_template("details.html")
     return HttpResponse(template.render(context, request))
 
-def extra(request, id):
-    value = id
-    template = loader.get_template("extra.html")
-    context = {
-        "value": value
-    }
-    return HttpResponse(template.render(context, request))
+def submitAction(request, id):
+    question = Question.objects.get(id = id)
+    selcted_choice = question.choice_set.get(pk = request.POST["choice"])
+    selcted_choice.votes += 1
+    selcted_choice.save()
+    template = loader.get_template("submittedPage.html")
+    return HttpResponse(template.render(None, request))
 
-# Create your views here.
+def results(request):
+    questions = Question.objects.all()
+    context = {
+        "questions": questions
+    }
+    template = loader.get_template("results.html")
+    return HttpResponse(template.render(context, request))
